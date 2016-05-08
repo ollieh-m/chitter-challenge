@@ -1,8 +1,8 @@
 ENV['RACK_ENV'] ||= 'development'
 
 require 'sinatra/base'
-require './models/datamapper_setup'
 require 'sinatra/flash'
+require './models/datamapper_setup.rb'
 
 class Chitter < Sinatra::Base
 
@@ -75,7 +75,8 @@ class Chitter < Sinatra::Base
   post '/peeps' do    
     #peep belongs to user, but for some ungodly reason new_peep.user=current_user does not work
     #I get no errors in new_peep, it properly assigns the user_id, but its own id is nil
-    new_peep = Peep.create(content: params[:content], created_at: Time.now, user_id: current_user.id)
+    new_peep = Peep.create(content: params[:content], created_at: Time.now, user: current_user)
+    p new_peep.errors
     current_user.peeps << new_peep
     current_user.save
     redirect '/peeps/index'

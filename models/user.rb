@@ -7,6 +7,8 @@ class User
 
 	attr_accessor :password_confirmation
 	attr_reader :password
+	
+	has n, :peeps
 
 	property :id, Serial
 	property :email, String, unique: true, required: true
@@ -30,7 +32,5 @@ class User
 
 	validates_confirmation_of :password
 	validates_presence_of :password
-
-	has n, :peeps
 
 end
